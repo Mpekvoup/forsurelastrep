@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="auth-card_main">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-tab-active">Автoризация</div>
+            <a class="auth-tab" href="{% url 'sign_up_page' %}">Регистрация</a>
+            <div class="auth-x"><a href="{% url 'home_page' %}">X</a></div>
+        </div>
+        <div class="auth-body">
+            <form method="post" action="{% url 'login_page' %}" class="auth-form">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn-sumbit">Войти</button>
+                <div class="auth-footer">Авторизуясь через социальные сети, вы соглашаетесь с правилами пользования сайтом и с политикой обработки персональных данных <br> Форма защищена Google reCAPTCHA (политика обработки персональных данных, условия работы)</div>
+                <p class="auth-footer"> Если у вас нет аккаунта перейдите по <a href="{% url 'sign_up_page' %}">ССЫЛКЕ</a></p>   
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock  %}

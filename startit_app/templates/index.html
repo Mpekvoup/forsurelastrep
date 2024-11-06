@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% block info_txt %}
+<div class="info-txt">
+    <div class="container">
+        <div class="title">Белая Мишка <br>Приключения для смелых</div>
+        {% for desc in infotxts %}
+        <div class="desc">{{ desc.title }}</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock  %}
+{% block filter %}
+<div class="filter">
+    <div class="container">
+        <h2>Фильтр:</h2>
+        <div class="filter-buttons">
+            {% url 'home_page' as home_page_url %}
+            <a href="{{ home_page_url }}" class="{% if request.path == home_page_url %}active{% endif %}">Все</a>
+        
+            {% for age in unique_ages %}
+                {% url 'filtered_quests' 'age' age.age__name as age_url %}
+                <a href="{{ age_url }}" class="{% if request.path == age_url %}active{% endif %}">
+                    {{ age.age__name }}
+                </a>
+            {% endfor %}
+        
+            {% for slozhno in unique_slozhno %}
+                {% url 'filtered_quests' 'slozhno' slozhno.slozhno__name as slozhno_url %}
+                <a href="{{ slozhno_url }}" class="{% if request.path == slozhno_url %}active{% endif %}">
+                    {{ slozhno.slozhno__name }}
+                </a>
+            {% endfor %}
+        
+            {% for strashno in unique_strashno %}
+                {% url 'filtered_quests' 'strashno' strashno.strashno__name as strashno_url %}
+                <a href="{{ strashno_url }}" class="{% if request.path == strashno_url %}active{% endif %}">
+                    {{ strashno.strashno__name }}
+                </a>
+            {% endfor %}
+        </div>        
+    </div>
+</div>
+{% endblock  %}
+{% block content %}
+{% for quest in quests %}
+        <div class="quest-card">
+            <div class="quest-container1">
+                <div>
+                    <a href="{% url 'book_page' pk=quest.pk %}" class="quest-title">{{ quest.name }}</a>
+                </div>
+                <div class="quest-image">
+                    <img src="{{ quest.image_url }}" alt="" class="card-photo">
+                </div>
+                <p class="quest-description">
+                    {{ quest.description|truncatechars:100 }}
+                </p>
+                <div class="quest-details">
+                    <p>Сложность: <span><strong>{{ quest.slozhno.name }}</strong></span></p>
+                    <p>Страшность: <span><strong>{{ quest.strashno.name }}</strong></span></p>
+                </div>
+                <div class="quest-footer">
+                    <button class="reserve-btn" ><a href="{% url 'book_page' pk=quest.pk %}" class="reserve-btn">
+                        Подробнее
+                    </button></a>
+                    <img src="{% static 'images/menu-page-img/Q-like.svg' %}" alt="" class="like-icon" id="likeBtn" data-quest-id="{{ quest.id }}">
+                    <span class="age"><strong>{{ quest.age.name }}</strong></span>
+                </div>                
+            </div>
+        </div>
+    {% endfor %}
+{% endblock  %}
+    </main>
+    <script src="{% static 'script/script.js' %}"></script>
+</body>
+</html>

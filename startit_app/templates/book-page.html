@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+
+      <div class="quest-info">
+        <div class="container">
+            {% if quest %}
+            <div class="title-info">{{ quest.name }}</div>
+            <div class="quest-image">
+                <img src="{{ quest.image_url }}" alt="{{ quest.name }}" class="card-photo">
+            </div>
+            <div class="quest-description">
+                {{ quest.description }}
+            </div>
+            <div class="quest-details">
+                <p>Сложность: <span>{{ quest.slozhno.name }}</span></p>
+                <p>Страшность: <span>{{ quest.strashno.name }}</span></p>
+                <p>Цена:<span> {{ quest.price}}&#8376;</span></p>
+            </div>
+            {% endif %}
+            <button class="reserve-btn" ><a href="https://wa.me/+77765291875" class="reserve-btn" target="_blank">
+              <span class="icon">
+                  <img src="{% static 'images/menu-page-img/Q-reserve.svg' %}" alt="" class="reserve-icon"{{ quest.name }}>
+              </span> 
+              Забронировать
+          </button></a>
+        </div>
+    </div>
+        </div>
+      </div>
+      <div class="contact">
+        <div class="container">
+          <div class="border"></div>
+          {% for address in addresesq %}
+          <div class="contact-title">{{ address.name }}</div>
+          <div class="contact-nav">
+            <nav><img src="{% static 'images/book-page-img/Q-map-point.svg' %}" alt="">{{ address.addres }}</nav>
+            <nav><img src="{% static 'images/book-page-img/Q-phone-icon.svg' %}" alt="">{{ address.phone }}</nav>
+            <nav><img src="{% static 'images/book-page-img/Q-check-point.svg' %}" alt="">{{ address.ostanovka }}</nav>
+          </div>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="container">
+          <div class="border"></div>
+          <div class="feature-nav">
+            <nav><img src="{% static 'images/book-page-img/Q-Wi_Fi.svg' %}" alt=""><b>Wi-Fi:</b> {{ address.wifi }}</nav>
+            <nav><img src="{% static 'images/book-page-img/Q-car.svg' %}" alt=""><b>Парковка:</b> {{ address.parking }}</nav>
+            <nav><img src="{% static 'images/book-page-img/Q-wait.svg' %}" alt="">Зал ожидания: {{ address.waitroom }}</nav>
+            {% endfor %}
+          </div>
+          <div class="border"></div>
+        </div>
+      </div>
+    </main>
+    {% else %}
+    <section class="access">
+       <div class="container">
+       <h1 class="auth-footer">Пожалуйста, с начала зарегестрируйтесь потом , вы можете взаимодейстовать </h1>
+       <p class="auth-footer"> Если у вас нет аккаунта перейдите по <a href="{% url 'sign_up_page' %}" class="help">ССЫЛКЕ</a></p>
+       <p class="auth-footer"> Если у вас есть аккаунт, перейдите по <a href="{% url 'login_page' %}">ССЫЛКЕ</a></p>  
+      </div>
+       </section>
+       {% endif %}
+{% endblock  %}
